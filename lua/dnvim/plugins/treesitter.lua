@@ -29,11 +29,8 @@ return {
 					"html",
 					"lua",
 					"markdown",
-					"norg",
 					"ocaml",
 					"vim",
-					"norg",
-					"norg_meta",
 				},
 				callback = function(args)
 					pcall(vim.treesitter.start, args.buf)
