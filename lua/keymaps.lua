@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>-", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>df", vim.diagnostic.open_float, { desc = "Open Diagnostic Float" })
 -- REMAPS
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -12,4 +12,4 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>g", "<cmd>Git<CR>")
-vim.keymap.set("n", "<leader>t-", "<cmd>Neotree toggle<CR>")
+vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<CR>")
