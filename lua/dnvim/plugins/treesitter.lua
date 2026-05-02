@@ -17,6 +17,23 @@ return {
 				filetype = "norg_meta",
 			}
 
+			-- Guard buggy node captures in injection directives (seen as node:range() nil)
+			local query = require("vim.treesitter.query")
+			local opts = vim.fn.has("nvim-0.10") == 1 and { force = true, all = false } or true
+			query.add_directive("set-lang-from-info-string!", function(match, _, bufnr, pred, metadata)
+				local node = match[pred[2]]
+				if not node or type(node) ~= "userdata" then
+					return
+				end
+
+				local ok, text = pcall(vim.treesitter.get_node_text, node, bufnr)
+				if not ok or type(text) ~= "string" or text == "" then
+					return
+				end
+
+				metadata["injection.language"] = vim.filetype.match({ filename = "a." .. text:lower() }) or text:lower()
+			end, opts)
+
 			local group = vim.api.nvim_create_augroup("dnvim_treesitter_start", { clear = true })
 			vim.api.nvim_create_autocmd("FileType", {
 				group = group,

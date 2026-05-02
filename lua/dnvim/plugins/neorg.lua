@@ -11,8 +11,14 @@ return {
 						use_popup = false,
 					},
 				},
+				["core.concealer"] = {
+					config = {
+						icon_preset = "basic",
+					},
+				},
 			},
 		})
+
 
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = "norg",
