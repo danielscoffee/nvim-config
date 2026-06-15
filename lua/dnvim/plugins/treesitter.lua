@@ -7,15 +7,29 @@ return {
 			local ts = require("nvim-treesitter")
 			ts.setup()
 
-			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-			parser_config.norg_meta = {
-				install_info = {
-					url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
-					files = { "src/parser.c" },
-					branch = "main",
-				},
-				filetype = "norg_meta",
-			}
+			local function add_neorg_parsers()
+				local parsers = require("nvim-treesitter.parsers")
+				parsers.norg = {
+					install_info = {
+						url = "https://github.com/nvim-neorg/tree-sitter-norg",
+						branch = "main",
+					},
+				}
+				parsers.norg_meta = {
+					install_info = {
+						url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
+						branch = "main",
+					},
+				}
+			end
+
+			add_neorg_parsers()
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "TSUpdate",
+				callback = add_neorg_parsers,
+			})
+			vim.treesitter.language.register("norg", "norg")
+			vim.treesitter.language.register("norg_meta", "norg_meta")
 
 			-- Guard buggy node captures in injection directives (seen as node:range() nil)
 			local query = require("vim.treesitter.query")
